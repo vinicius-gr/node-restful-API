@@ -25,7 +25,7 @@ Error handling | :heavy_check_mark:
 Body parsing | :heavy_check_mark:
 CORS handling | :heavy_check_mark:
 MongoDB database creation | :heavy_check_mark:
-Mongoose validation | -
+Mongoose validation | :heavy_check_mark:
 Image uploading | -
 Sing up and Login | -
 JWT Signing | -

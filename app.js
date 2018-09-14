@@ -7,9 +7,10 @@ const mongoose = require('mongoose');
 const productRoutes = require('./api/routes/products');
 const ordersRoutes = require('./api/routes/orders');
 
-const DB_URL = 'mongodb://localhost/restful-api-studies'
-mongoose.connect(DB_URL, (err, db) => {
-  console.log('Connected to the database');
+const DB_URL = 'mongodb+srv://user-0:' + process.env.MONGO_ATLAS_PW + '@node-rest-shop-1dihy.mongodb.net/test?retryWrites=true'
+mongoose.connect(DB_URL, {useMongoClient: true}, (err, db) => {
+  if(db) console.log('Connected to the database')
+  else console.log(err);
 });
 
 app.use(morgan('dev'));

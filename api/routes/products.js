@@ -1,12 +1,38 @@
 const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
+const multer = require('multer');
+
+// Organazing image uploading
+const fileFilter = (req, file, cb) => {
+    (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') 
+        ? cb(null, true) 
+        : cb(new Error('File type not supported'), false);
+}
+
+const storage = multer.diskStorage({
+    destination: function(req, file, cb){
+        cb(null, './uploads/');
+    },
+    filename: function(req, file, cb){
+        cb(null, new Date().toDateString() + file.originalname);
+    }
+});
+
+const upload = multer({
+    storage: storage, 
+    limits: {
+        fileSize: Math.pow(1024,2) * 5
+    },
+    fileFilter: fileFilter
+});
+// Organazing image uploading
 
 const Product = require('../models/product');
 
 router.get('/', (req, res, next) => {
     Product.find()
-        .select('name price _id')
+        .select('name price _id productImage')
         .exec()
         .then(docs => {
 
@@ -40,17 +66,17 @@ router.get('/', (req, res, next) => {
     });
 });
 
-router.post('/', (req, res, next) => {
-
+router.post('/', upload.single('productImage'), (req, res, next) => {
     const product = new Product({
         _id: new mongoose.Types.ObjectId(),
         name: req.body.name,
-        price: req.body.price
+        price: req.body.price,
+        productImage: req.file.path
     });
 
     product
-        .save().
-        then(result => {
+        .save()
+        .then(result => {
             console.log(result);
             res.status(201).json({
                 message: 'Product created successfully',
@@ -76,10 +102,9 @@ router.get('/:id', (req, res, next) => {
     const id = req.params.id;
 
     Product.findById(id)
-        .select('name price _id')
+        .select('name price _id productImage')
         .exec()
-        .then(doc => {
-            
+        .then(doc => {            
             if (doc) {
                 res.status(200).json({
                     product: doc,

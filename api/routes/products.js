@@ -14,7 +14,7 @@ router.get('/', (req, res, next) => {
                 count: docs.length,
                 products: docs.map(doc => {
                     return {
-                        ...doc,
+                        ...doc._doc,
                         request: {
                             type: 'GET',
                             description: 'GET_THIS_PRODUCT',
@@ -48,17 +48,18 @@ router.post('/', (req, res, next) => {
         price: req.body.price
     });
 
-    product.save().
+    product
+        .save().
         then(result => {
             console.log(result);
             res.status(201).json({
                 message: 'Product created successfully',
                 createdProduct: {
-                    ...result,
+                    ...result._doc,
                     request: {
                         type: 'GET',
                         description: 'GET_THIS_PRODUCT',
-                        url: process.env.URL+'/products/'+doc._id   
+                        url: process.env.URL+'/products/'+result._doc._id   
                     }
                 }
             });

@@ -71,3 +71,6 @@ typings/
 
 # Serverless directories
 .serverless
+
+# Environment variables
+nodemon.json

@@ -27,7 +27,7 @@ CORS handling | :heavy_check_mark:
 MongoDB database creation | :heavy_check_mark:
 Mongoose validation | :heavy_check_mark:
 Image uploading | :heavy_check_mark:
-Sing up and Login | -
-JWT Signing | -
-Route Protection | -
-Controller adition | -
+Sing up and Login | :heavy_check_mark:
+JWT Signing | :heavy_check_mark:
+Route Protection | :heavy_check_mark:
+Controller adition | :heavy_check_mark:
